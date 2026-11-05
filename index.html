@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Home Renovation Cost Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Demo Switcher Bar -->
+  <header class="demo-bar">
+    <div class="demo-bar-inner">
+      <div class="demo-badge-group">
+        <span class="demo-pill">WP Plugin Live Prototype</span>
+        <span class="demo-hint">Test the customer estimator or edit live prices in the No-Code Admin Panel</span>
+      </div>
+      <div class="demo-tabs" role="tablist">
+        <button class="demo-tab active" id="tab-calculator" data-view="calculator" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+          Customer Calculator
+        </button>
+        <button class="demo-tab" id="tab-admin" data-view="admin" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          WP Admin Price Editor
+          <span class="lead-counter-badge" id="admin-lead-badge" hidden>0</span>
+        </button>
+        <button class="demo-device-btn" id="toggle-mobile-preview" type="button" title="Preview Mobile Layout">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span>Mobile Preview</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Customer Calculator View -->
+  <main id="view-calculator" class="view-section active">
+    <div id="device-frame" class="calculator-shell">
+
+      <div class="site-context-header">
+        <div class="brand-lockup">
+          <div class="brand-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <span class="brand-name" id="display-company-name">Oakridge Home Remodeling</span>
+            <span class="brand-tagline">Instant Renovation Cost Estimator</span>
+          </div>
+        </div>
+        <div class="trust-badges">
+          <span>Licensed &amp; Insured</span>
+          <span class="dot">•</span>
+          <span>No-Obligation Estimate</span>
+        </div>
+      </div>
+
+      <div class="estimator-card">
+        <div class="estimator-top-bar">
+          <div class="step-progress-wrap">
+            <div class="step-labels" id="step-indicators"></div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progress-fill" style="width: 16.66%"></div>
+            </div>
+          </div>
+
+          <div class="live-price-box" aria-live="polite">
+            <span class="live-price-label">Estimated Investment Range</span>
+            <div class="live-price-value" id="live-price-range">$18,500 – $22,900</div>
+            <span class="live-price-sub" id="live-duration-badge">Est. timeline: 4–6 weeks</span>
+          </div>
+        </div>
+
+        <div class="step-body" id="step-body"></div>
+
+        <div class="step-footer" id="step-footer">
+          <button type="button" class="btn btn-secondary" id="btn-prev" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <div class="selection-crumb" id="selection-crumb">Select a room to get started</div>
+          <button type="button" class="btn btn-primary" id="btn-next">
+            Continue
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- WordPress Admin Pricing & Leads Panel -->
+  <section id="view-admin" class="view-section" hidden>
+    <div class="wp-admin-layout">
+      <aside class="wp-sidebar">
+        <div class="wp-logo-row">
+          <span class="wp-circle">W</span>
+          <span>WordPress Admin</span>
+        </div>
+        <nav class="wp-nav">
+          <div class="wp-nav-item muted">Dashboard</div>
+          <div class="wp-nav-item muted">Pages</div>
+          <div class="wp-nav-item active-plugin">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+            Cost Calculator
+          </div>
+          <div class="wp-nav-item muted">Appearance</div>
+          <div class="wp-nav-item muted">Plugins</div>
+          <div class="wp-nav-item muted">Settings</div>
+        </nav>
+        <div class="shortcode-callout">
+          <div class="shortcode-title">Embed Shortcode</div>
+          <code>[renovation_calculator]</code>
+          <p>Paste onto any WordPress page, Elementor, Divi, or Gutenberg block.</p>
+        </div>
+      </aside>
+
+      <div class="wp-main">
+        <div class="wp-header-row">
+          <div>
+            <h1>Renovation Cost Calculator — Settings &amp; Pricing Matrix</h1>
+            <p>Update room base costs, multipliers, add-on extras, and email notifications without touching code.</p>
+          </div>
+          <div class="wp-header-actions">
+            <button type="button" class="btn btn-outline-sm" id="btn-reset-defaults">Reset Demo Defaults</button>
+            <button type="button" class="btn btn-primary" id="btn-save-admin">Save Changes &amp; Preview</button>
+          </div>
+        </div>
+
+        <div id="admin-toast" class="admin-toast" hidden>
+          Pricing matrix saved! Switching to calculator to preview your updated prices.
+        </div>
+
+        <div class="admin-subtabs">
+          <button type="button" class="admin-subtab active" data-subtab="rooms">1. Rooms &amp; Base Rates</button>
+          <button type="button" class="admin-subtab" data-subtab="multipliers">2. Scope &amp; Material Multipliers</button>
+          <button type="button" class="admin-subtab" data-subtab="extras">3. Room Extras &amp; Add-Ons</button>
+          <button type="button" class="admin-subtab" data-subtab="emails">4. Email &amp; General Settings</button>
+          <button type="button" class="admin-subtab" data-subtab="leads">5. Captured Leads <span id="subtab-lead-count" class="count-pill">0</span></button>
+        </div>
+
+        <div id="admin-panel-content" class="admin-card"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Automated Email Preview Modal -->
+  <div id="email-modal" class="modal-backdrop" hidden>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <span class="success-pill">Estimate Dispatched Successfully</span>
+          <h3>Automated Dual-Email Preview</h3>
+          <p>In WordPress, both HTML emails below are sent automatically via <code>wp_mail()</code> / SMTP on form submission.</p>
+        </div>
+        <button type="button" class="modal-close" id="close-email-modal" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="email-preview-tabs">
+        <button type="button" class="email-tab active" data-email-tab="customer">1. Email Sent to Homeowner</button>
+        <button type="button" class="email-tab" data-email-tab="contractor">2. Lead Alert Sent to Your Team</button>
+      </div>
+
+      <div class="email-preview-body" id="email-preview-body"></div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="modal-view-in-admin">View Lead in WP Admin Panel</button>
+        <button type="button" class="btn btn-primary" id="modal-done-btn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
